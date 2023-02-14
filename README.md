@@ -23,6 +23,7 @@ android {
 
     }
 }
+```
 #### dependencies
 ```
 dependencies {
@@ -38,4 +39,17 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 }
+```
+#### Manifest
+```
+<uses-permission android:name="android.permission.WAKE_LOCK" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30"/>
+<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" android:maxSdkVersion="30"/>
+<uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" />
+<uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+<uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+<uses-permission android:name="android.permission.BODY_SENSORS" />
+<uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 ```
