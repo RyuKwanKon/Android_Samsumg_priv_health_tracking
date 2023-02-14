@@ -63,5 +63,76 @@ dependencies {
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 ```
 </details>
+<details>
+<summary>Server Code</summary>
+
+```
+package com.example.bluetoothtest
+
+import android.annotation.SuppressLint
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothServerSocket
+import android.bluetooth.BluetoothSocket
+import android.util.Log
+import java.io.IOException
+import java.util.*
+
+// 블루투스에서 서버의 역할을 수행하는 스레드
+@SuppressLint("MissingPermission")
+class AcceptThread(private val bluetoothAdapter: BluetoothAdapter, private var adapter: RecyclerViewAdapter,
+    var list: ItemList): Thread() {
+    private lateinit var serverSocket: BluetoothServerSocket
+
+    companion object {
+        private const val TAG = "ACCEPT_THREAD"
+        private const val SOCKET_NAME = "server"
+        private val MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
+    }
+
+    init {
+        try {
+            // 서버 소켓
+            serverSocket = bluetoothAdapter.listenUsingRfcommWithServiceRecord(SOCKET_NAME, MY_UUID)
+        } catch(e: Exception) {
+            Log.d(TAG, e.message.toString())
+        }
+    }
+
+    override fun run() {
+        var socket: BluetoothSocket? = null
+        Log.d("success", socket.toString())
+        while(true) {
+            try {
+                // 클라이언트 소켓
+                socket = serverSocket.accept()
+                Log.d("success", socket.toString())
+                Thread.sleep(300)
+            } catch (e: IOException) {
+                Log.d(TAG, e.message.toString())
+            }
+
+            socket?.let {
+                val mInputputStream = socket.inputStream
+                val buffer = ByteArray(1024)
+                var bytes: Int
+                while(true){
+                    //get value from wearable
+                }
+                serverSocket.close()
+            }
+            break
+        }
+    }
+
+    fun cancel() {
+        try {
+            serverSocket.close()
+        } catch (e: IOException) {
+            Log.d(TAG, e.message.toString())
+        }
+    }
+}
+```
+</details>
 
 ![Frame 1](https://user-images.githubusercontent.com/97783148/218670996-dbb65fd2-c6a6-4219-ab4b-0ca3c7721d94.png)
