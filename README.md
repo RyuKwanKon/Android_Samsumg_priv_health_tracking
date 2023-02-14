@@ -9,7 +9,7 @@
 - 센서 데이터를 받을 수 있는 서버가 필요함(ex - android 휴대폰)
 - 앱 실행 전 서버는 블루투스 소켓을 먼저 열어줘야 한다.
 
-#### SDK & dependencies
+#### SDK
 ```
 android {
     compileSdk 33
@@ -23,7 +23,8 @@ android {
 
     }
 }
-
+#### dependencies
+```
 dependencies {
     implementation "androidx.annotation:annotation:1.5.0"
 
