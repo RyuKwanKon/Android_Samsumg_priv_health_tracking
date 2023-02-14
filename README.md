@@ -9,7 +9,10 @@
 - 센서 데이터를 받을 수 있는 서버가 필요함(ex - android 휴대폰)
 - 앱 실행 전 서버는 블루투스 소켓을 먼저 열어줘야 한다.
 
-#### SDK
+
+<details>
+<summary>SDK</summary>
+
 ```
 android {
     compileSdk 33
@@ -24,7 +27,10 @@ android {
     }
 }
 ```
-#### dependencies
+</details>
+<details>
+<summary>dependencies</summary>
+
 ```
 dependencies {
     implementation "androidx.annotation:annotation:1.5.0"
@@ -40,7 +46,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 }
 ```
-#### Manifest
+</details>
+<details>
+<summary>Manifest</summary>
+
 ```
 <uses-permission android:name="android.permission.WAKE_LOCK" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -53,6 +62,6 @@ dependencies {
 <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 ```
+</details>
 
 ![Frame 1](https://user-images.githubusercontent.com/97783148/218670996-dbb65fd2-c6a6-4219-ab4b-0ca3c7721d94.png)
-
