@@ -53,3 +53,6 @@ dependencies {
 <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
 <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 ```
+
+![Frame 1](https://user-images.githubusercontent.com/97783148/218670996-dbb65fd2-c6a6-4219-ab4b-0ca3c7721d94.png)
+
