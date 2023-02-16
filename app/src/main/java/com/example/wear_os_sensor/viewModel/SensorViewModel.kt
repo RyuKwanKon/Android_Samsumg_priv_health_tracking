@@ -6,6 +6,8 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.util.Log
 import com.example.wear_os_sensor.model.SensorModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class SensorViewModel {
     private val sensorEventListener: SensorEventListener
@@ -39,9 +41,7 @@ class SensorViewModel {
         var msg: String = ""
         //센서 축이 1개일 경우
         if (event.values.size == 1)
-            msg =
-                sensorListUtil.getSensorName(event.sensor.getType()) +
-                        " " +
+            msg = sensorListUtil.getSensorName(event.sensor.getType()) + " " +
                         event.values[0]
         //센서가 3축 데이터일 경우
         else msg = sensorListUtil.getSensorName(event.sensor.getType()) +

@@ -4,6 +4,6 @@ import android.content.Context
 
 interface DataSender {
     fun connect(context: Context): String
-    fun sendData(data: String): String
+    fun sendData(data: String)
     fun disconnect()
 }

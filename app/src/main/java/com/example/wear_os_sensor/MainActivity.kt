@@ -22,9 +22,7 @@ class MainActivity : Activity() {
             val intent = Intent(this, SensorListActivity::class.java)
             startActivity(intent)
         }
-        //binding.이은섭
-        //binding.root <- binding 전체화면
-        //화면 보여
+
         setContentView(binding.root)
     }
 }

@@ -53,14 +53,15 @@ class BluetoothDataSender: DataSender {
         }
     }
 
-    override fun sendData(data: String): String {
+    override fun sendData(data: String){
         try {
-            mOutputStream.write(data.toByteArray(Charsets.UTF_8))
-            return data.toByteArray(Charsets.UTF_8).toString(Charsets.UTF_8)
+            Thread{
+                mOutputStream.write(data.toByteArray(Charsets.UTF_8))
+            }.start()
+            Log.d("", data.toByteArray(Charsets.UTF_8).toString(Charsets.UTF_8))
         } catch (e: IOException) {
             Log.e("Bluetooth Connection", "Error sending data", e)
         }
-        return "error"
     }
 
     override fun disconnect() {
