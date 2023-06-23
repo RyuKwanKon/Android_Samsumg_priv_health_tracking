@@ -14,6 +14,7 @@ class RecyclerViewModel {
 
     fun getSensorAdapter(): SensorAdapter {
         var items = sensorModel.getCheckedSensorList()
+
         //이미 센서값을 저장한적이 있다면
         //추후 데이터베이스에서 받아오는 부분
         if (items.size > 0) return SensorAdapter(items)

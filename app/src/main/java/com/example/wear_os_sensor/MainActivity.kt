@@ -1,28 +1,49 @@
 package com.example.wear_os_sensor
 
-import android.app.Activity
+import android.app.ActivityManager
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.example.wear_os_sensor.databinding.ActivityMainBinding
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import com.example.wear_os_sensor.model.Constant
 
-class MainActivity : Activity() {
-    //xml과 연결
-    //binding 타입 지정
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(R.layout.activity_main)
+        if(isLocationServiceRunning()){
+            // 프래그먼트 매니저를 가져옵니다.
+            val fragmentManager: FragmentManager = supportFragmentManager
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        binding.startButton.setOnClickListener {
-            val intent = Intent(this, MainActivity2::class.java)
-            startActivity(intent)
-        }
-        binding.sensors.setOnClickListener{
-            val intent = Intent(this, SensorListActivity::class.java)
-            startActivity(intent)
-        }
+            // 프래그먼트 트랜잭션을 시작합니다.
+            val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
 
-        setContentView(binding.root)
+            // 초기 프래그먼트를 추가합니다.
+            val connectFragment = ConnectFragment()
+
+            fragmentTransaction.replace(R.id.fragment_container, connectFragment)
+            // 트랜잭션을 커밋합니다.
+            fragmentTransaction.commit()
+        }
+    }
+    private fun isLocationServiceRunning(): Boolean {
+        val activityManager = getSystemService(ACTIVITY_SERVICE) as ActivityManager
+        if (activityManager != null) {
+            for (service in activityManager.getRunningServices(Int.MAX_VALUE)) {
+                if (SensorService::class.java.name == service.service.className) {
+                    if (service.foreground) {
+                        return true
+                    }
+                }
+            }
+            return false
+        }
+        return false
     }
 }
