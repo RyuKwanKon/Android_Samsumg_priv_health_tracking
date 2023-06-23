@@ -1,9 +1,10 @@
-# Android-wear-os-sensor-bluetoothSocket
+# Android_Samsung_priv_health_tracking
 
-안드로이드 OS 기반의 wearable에서 필요한 센서 데이터를 다른 기기에 전달하는 방법 - bluetooth socket 사용
+삼성에서 제공하는 priv_health_tracking SDK를 이용하여 ppg 신호와 기타 센서 값을 추출하는 코드.
+블루투스 socket을 통해 모바일 휴대폰으로 전달
 
-#### Android 공식에서 권장하는 방법은 아님.
-#### MessageClient나 DataClient Api를 사용을 권장.
+#### Samsung_priv_health_tracking SDK 가 반드시 필요 
+#### https://developer.samsung.com/health/privileged/overview.html
 
 #### 앱 실행 필수 사항
 - 센서 데이터를 받을 수 있는 서버가 필요함(ex - android 휴대폰)
@@ -113,7 +114,7 @@ class AcceptThread(private val bluetoothAdapter: BluetoothAdapter, private var a
 
             socket?.let {
                 val mInputputStream = socket.inputStream
-                val buffer = ByteArray(1024)
+                val buffer = ByteArray("YOU Want (MAX 990) ")
                 var bytes: Int
                 while(true){
                     //get value from wearable
@@ -134,5 +135,3 @@ class AcceptThread(private val bluetoothAdapter: BluetoothAdapter, private var a
 }
 ```
 </details>
-
-![Frame 1](https://user-images.githubusercontent.com/97783148/218670996-dbb65fd2-c6a6-4219-ab4b-0ca3c7721d94.png)
