@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:buttonTint="#D9E5FF"
-        android:text="Heart-rate"
+        android:text=""
         android:textColor="@color/light_text"
         android:textSize="15dp"
         />

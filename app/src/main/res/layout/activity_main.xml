@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/fragment_container"
     android:padding="@dimen/box_inset_layout_padding"
-    tools:context=".MainActivity">
+    tools:context="com.gachon_HCI_Lab.wear_os_sensor.MainActivity">
 
     <!--    <FrameLayout-->
     <!--        android:id="@+id/fragment_container"-->
@@ -16,7 +16,7 @@
 
     <fragment
         android:id="@+id/fragment_main"
-        android:name="com.example.wear_os_sensor.MainFragment"
+        android:name="com.gachon_HCI_Lab.wear_os_sensor.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -36,12 +36,12 @@
         android:theme="@android:style/Theme.DeviceDefault">
 
         <service
-            android:name=".SensorService"
+            android:name="com.gachon_HCI_Lab.wear_os_sensor.SensorService"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.gachon_HCI_Lab.wear_os_sensor.MainActivity"
             android:exported="true"
             android:theme="@style/AppTheme">
 <!--            android:theme="@android:style/Theme.DeviceDefault.NoActionBar"-->
@@ -50,22 +50,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-<!--        <activity-->
-<!--            android:name=".SensorListActivity"-->
-<!--            android:exported="false"-->
-<!--            android:theme="@android:style/Theme.DeviceDefault.NoActionBar">-->
-<!--            <meta-data-->
-<!--                android:name="android.app.lib_name"-->
-<!--                android:value="" />-->
-<!--        </activity>-->
-<!--        <activity-->
-<!--            android:name=".MainActivity2"-->
-<!--            android:exported="false"-->
-<!--            android:theme="@android:style/Theme.DeviceDefault.NoActionBar">-->
-<!--            <meta-data-->
-<!--                android:name="android.app.lib_name"-->
-<!--                android:value="" />-->
-<!--        </activity>-->
 
         <uses-library
             android:name="com.google.android.wearable"

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SensorListFragment">
+    tools:context="com.gachon_HCI_Lab.wear_os_sensor.SensorListFragment">
 
     <LinearLayout
         android:orientation="vertical"

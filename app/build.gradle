@@ -7,7 +7,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.wear_os_sensor"
+        applicationId "com.gachon_HCI_Lab.wear_os_sensor"
         minSdk 30
         targetSdk 33
         versionCode 1
