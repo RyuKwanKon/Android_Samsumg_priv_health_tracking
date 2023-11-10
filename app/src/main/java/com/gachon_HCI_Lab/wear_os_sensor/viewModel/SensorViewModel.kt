@@ -1,5 +1,6 @@
 package com.example.wear_os_sensor
 
+import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
@@ -11,12 +12,9 @@ import java.nio.ByteOrder
 
 class SensorViewModel {
     private val sensorEventListener: SensorEventListener
-    private val sensorModel: SensorModel
     private val sensorManagerUtil: SensorManagerUtil
-    private val sensorListUtil: SensorListUtil = SensorListUtil()
 
     constructor(sensorManager: SensorManager, sensorEventListener: SensorEventListener) {
-        this.sensorModel = SensorModel
         this.sensorManagerUtil = SensorManagerUtil(sensorManager)
         this.sensorEventListener = sensorEventListener
     }
@@ -24,29 +22,37 @@ class SensorViewModel {
     fun register(): String {
         var checkedList: ArrayList<Int> = arrayListOf()
         var sdkCheckedList: ArrayList<Any> = arrayListOf()
-        for ((key, value) in sensorModel.getCheckedSensorList()) {
+        for ((key, value) in SensorModel.getCheckedSensorList()) {
+            if ((key.toString() == "other sensors") && value){
+                checkedList.add(Sensor.TYPE_HEART_RATE)
+                checkedList.add(Sensor.TYPE_STEP_DETECTOR)
+                checkedList.add(Sensor.TYPE_LIGHT)
+                checkedList.add(Sensor.TYPE_GRAVITY)
+                checkedList.add(Sensor.TYPE_GYROSCOPE)
+                checkedList.add(Sensor.TYPE_ACCELEROMETER)
+                continue
+            }
             if ((key !is Int) && value) {
                 sdkCheckedList.add(key)
                 continue
             }
-            if (value) checkedList.add(key as Int)
         }
         if (sdkCheckedList.size > 0) SDKSensor.setCheckedSensorList(sdkCheckedList)
         val availableList: ArrayList<Int> =
             sensorManagerUtil.registerSensor(sensorEventListener, checkedList)
-        sensorModel.setAvailableSensorList(availableList)
-        return sensorModel.getAvailableSensorList().toString()
+        SensorModel.setAvailableSensorList(availableList)
+        return SensorModel.getAvailableSensorList().toString()
     }
 
     fun unRegister() {
         sensorManagerUtil.unregisterSensor(
             sensorEventListener,
-            sensorModel.getAvailableSensorList()
+            SensorModel.getAvailableSensorList()
         )
     }
 
     fun sensorValue(event: SensorEvent): ByteBuffer {
-        if (!sensorModel.getAvailableSensorList().contains(event.sensor.getType()))
+        if (!SensorModel.getAvailableSensorList().contains(event.sensor.getType()))
             return ByteBuffer.allocate(0)
         val timestamp: Long = System.currentTimeMillis()
         return getSensorData(event, timestamp)

@@ -1,24 +1,26 @@
 package com.example.wear_os_sensor
 
+import android.util.Log
 import com.gachon_HCI_Lab.wear_os_sensor.model.SensorModel
 import com.gachon_HCI_Lab.wear_os_sensor.recyclerView.Item
 import com.gachon_HCI_Lab.wear_os_sensor.recyclerView.SensorAdapter
+import com.samsung.android.service.health.tracking.data.HealthTrackerType
 
-class RecyclerViewModel {
-    private val sensorModel: SensorModel
+object RecyclerViewModel {
     private val sensorListUtil: SensorListUtil = SensorListUtil()
 
-    constructor(sensorModel: SensorModel){
-        this.sensorModel = sensorModel
+    fun createSensorList(){
+        var items = SensorModel.getCheckedSensorList()
+        if (items.size > 0) return
+        for (name in sensorListUtil.getSensorIDList()){
+            Log.d("sesnsor lsit", name.toString())
+            if(name == 1 || name == 18 || name == 4 || name == 5 || name == 21 || name == 9) continue
+            items.add(Item(name, true))
+        }
     }
 
     fun getSensorAdapter(): SensorAdapter {
-        var items = sensorModel.getCheckedSensorList()
-        if (items.size > 0)
-            return SensorAdapter(items)
-        for (name in sensorListUtil.getSensorIDList()){
-            items.add(Item(name, true))
-        }
+        var items = SensorModel.getCheckedSensorList()
         return SensorAdapter(items)
     }
 }

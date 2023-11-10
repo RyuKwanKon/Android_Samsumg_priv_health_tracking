@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.wear_os_sensor.R
+import com.example.wear_os_sensor.RecyclerViewModel
+import com.gachon_HCI_Lab.wear_os_sensor.util.step.StepsReaderUtil
 
 class MainFragment : Fragment() {
 
@@ -17,7 +19,7 @@ class MainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_main, container, false)
-
+        RecyclerViewModel.createSensorList()
         val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
 

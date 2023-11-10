@@ -1,42 +1,71 @@
 package com.gachon_HCI_Lab.wear_os_sensor
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.app.ActivityManager
-import android.app.AlertDialog
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.animation.AnticipateInterpolator
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.example.wear_os_sensor.R
+import com.gachon_HCI_Lab.wear_os_sensor.util.step.Permissions
+import com.gachon_HCI_Lab.wear_os_sensor.util.step.StepsReader
+import com.gachon_HCI_Lab.wear_os_sensor.util.step.StepsReaderUtil
+import com.google.android.libraries.healthdata.HealthDataService
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
+import com.samsung.android.sdk.healthdata.HealthPermissionManager
 import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
     private val SENSORS_PERMISSION_REQUEST_CODE = 1001
-    private var count: Int = 0
-
-    // 프래그먼트 매니저를 가져옵니다.
     private val fragmentManager: FragmentManager = supportFragmentManager
-
-    // 프래그먼트 트랜잭션을 시작합니다.
     private val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        Thread.setDefaultUncaughtExceptionHandler(ExceptionHandler())
         checkPermission()
+        try {
+            val healthDataClient = HealthDataService.getClient(this)
+            StepsReaderUtil.addContext(this)
+            StepsReader.addHealthDataClient(healthDataClient)
+            Permissions.addHealthDataClietn(healthDataClient)
+            StepsReaderUtil.readStepsWithPermissionsCheck()
+            if (isLocationServiceRunning()) {
+                // 초기 프래그먼트를 추가합니다.
+                val connectFragment = ConnectFragment()
+                fragmentTransaction.replace(R.id.fragment_container, connectFragment)
+                // 트랜잭션을 커밋합니다.
+                fragmentTransaction.commit()
+            }
 
-        if (isLocationServiceRunning()) {
-            // 초기 프래그먼트를 추가합니다.
+            if (!HealthDataService.isHealthDataApiSupported()) {
+                Toast.makeText(
+                    this,
+                    "Health Platform not available, make sure you're on Samsung device running Android"
+                            + " Watch 4 and above",
+                    Toast.LENGTH_LONG
+                )
+                    .show();
+                finish();
+            }
+        }catch (e: IllegalStateException){
             val connectFragment = ConnectFragment()
             fragmentTransaction.replace(R.id.fragment_container, connectFragment)
-            // 트랜잭션을 커밋합니다.
-            fragmentTransaction.commit()
+            fragmentTransaction.replace(R.id.fragment_container, ExceptFragment()).commit()
         }
     }
 
@@ -88,6 +117,16 @@ class MainActivity : AppCompatActivity() {
                 ),
                 SENSORS_PERMISSION_REQUEST_CODE
             )
+        }
+    }
+
+    inner class ExceptionHandler : Thread.UncaughtExceptionHandler {
+        override fun uncaughtException(p0: Thread?, p1: Throwable?) {
+            Log.d("Exception", "비정상 종료")
+            p1?.printStackTrace()
+
+//            android.os.Process.killProcess(android.os.Process.myPid())
+//            exitProcess(10)
         }
     }
 }

@@ -20,11 +20,11 @@ class SensorManagerUtil {
             if (sensorManager.getDefaultSensor(sensorType) == null) continue
             //측정하기 원하는 센서의 여부
             if (!list.contains(sensorType)) continue
-
             sensorManager.registerListener(
                 listener,
                 sensorManager.getDefaultSensor(sensorType),
                 SensorManager.SENSOR_DELAY_NORMAL
+
             )
             sensorList.add(sensorType)
         }

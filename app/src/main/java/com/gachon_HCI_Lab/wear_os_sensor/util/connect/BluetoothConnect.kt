@@ -10,6 +10,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import android.util.Log
+import com.gachon_HCI_Lab.wear_os_sensor.util.step.StepsReaderUtil
 import java.io.IOException
 import java.io.OutputStream
 import java.lang.reflect.Method
@@ -65,7 +66,7 @@ object BluetoothConnect {
     @Throws(Exception::class)
     fun sendData(byteSensorData: ByteBuffer){
         // + battery 4바이트
-        val byteBuffer = ByteBuffer.allocate(964)
+        val byteBuffer = ByteBuffer.allocate(968)
         byteBuffer.order(ByteOrder.LITTLE_ENDIAN)
         val byteArray = createByteArrayForSensorAndBatteryData(byteBuffer, byteSensorData)
         mOutputStream.write(byteArray)
@@ -98,6 +99,7 @@ object BluetoothConnect {
     }
     private fun createByteArrayForSensorAndBatteryData(byteBuffer:ByteBuffer, byteSensorData: ByteBuffer): ByteArray{
         byteBuffer.putInt(getBatteryPercentage())
+        byteBuffer.putInt(StepsReaderUtil.stepCount.toInt())
         byteBuffer.put(byteSensorData)
         return byteBuffer.array()
     }

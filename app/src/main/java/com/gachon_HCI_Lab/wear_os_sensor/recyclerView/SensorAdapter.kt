@@ -12,7 +12,6 @@ class SensorAdapter(private var items: List<Item>) : RecyclerView.Adapter<Sensor
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val checkbox: CheckBox = itemView.findViewById(R.id.sensor_num)
-
     }
 
     private val sensorListUtil: SensorListUtil = SensorListUtil()

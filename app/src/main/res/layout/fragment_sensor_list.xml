@@ -11,15 +11,16 @@
         android:layout_height="match_parent"
         android:background="@color/dark_background">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/sensor_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginStart="30dp"
-        tools:listitem="@layout/sensor_items"
-        />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sensor_recycler_view"
+            android:layout_width="159dp"
+            android:layout_height="130dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:scrollbarThumbVertical="@drawable/radius_box"
+            android:scrollbars="vertical"
+            tools:listitem="@layout/sensor_items" />
 
         <Button
             android:id="@+id/back"

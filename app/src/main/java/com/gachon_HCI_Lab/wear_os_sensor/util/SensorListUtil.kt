@@ -17,6 +17,7 @@ class SensorListUtil {
         HealthTrackerType.PPG_GREEN to "ppg Green",
 //        HealthTrackerType.PPG_RED to "ppg Red",
 //        HealthTrackerType.PPG_IR to "ppg Ir"
+        "other sensors" to "other sensors"
     )
 
     fun getSensorName(num: Any): String? {

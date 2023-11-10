@@ -49,6 +49,8 @@ class ConnectFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentConnectBinding.inflate(inflater, container, false)
+        val fragmentManager = requireActivity().supportFragmentManager
+        val mainFragment = MainFragment()
         val view = binding.root
 
         dataSender = BluetoothConnect
@@ -63,14 +65,15 @@ class ConnectFragment : Fragment() {
         }
 
         binding.startButton.setOnClickListener {
-            Log.i("button", binding.startButton.text.toString())
-            // 연결을 찾은경우
             if (binding.startButton.text.toString() == "Start") {
                 startLocationService()
             } else if (binding.startButton.text.toString() == "Stop") {
+                fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, mainFragment)
+                    .commit()
                 stopLocationService()
+                dataSender.disconnect()
             }
-            // 찾지 못한 경우
             else {
                 Toast.makeText(requireActivity(), "Search device", Toast.LENGTH_SHORT).show()
                 searchBluetoothDevice()
@@ -80,8 +83,6 @@ class ConnectFragment : Fragment() {
         // 중간에 끊길경우 예외 처리하기
 
         binding.stopButton.setOnClickListener {
-            val fragmentManager = requireActivity().supportFragmentManager
-            val mainFragment = MainFragment()
             fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, mainFragment)
                 .commit()
@@ -146,7 +147,7 @@ class ConnectFragment : Fragment() {
         if (isLocationServiceRunning()) {
             val intent = Intent(requireContext(), SensorService::class.java)
             intent.action = Constant.ACTION_STOP_LOCATION_SERVICE
-            requireActivity().startService(intent)
+            requireActivity().stopService(intent)
             updateTextStatus()
             Toast.makeText(requireContext(), "Service stopped", Toast.LENGTH_SHORT).show()
         }

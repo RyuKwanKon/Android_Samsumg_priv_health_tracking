@@ -19,6 +19,7 @@ import com.gachon_HCI_Lab.wear_os_sensor.model.Constant
 import com.gachon_HCI_Lab.wear_os_sensor.model.SensorModel
 import com.gachon_HCI_Lab.wear_os_sensor.util.PpgUtil
 import com.gachon_HCI_Lab.wear_os_sensor.util.connect.BluetoothConnect
+import com.gachon_HCI_Lab.wear_os_sensor.util.step.StepsReaderUtil
 import java.io.IOException
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
@@ -27,9 +28,9 @@ import java.nio.ByteOrder
 class SensorService : Service(), SensorEventListener {
 
     private lateinit var sensorViewModel: SensorViewModel
+    private var dataSender: BluetoothConnect = BluetoothConnect
     val intent = Intent("com.example.ACTION_SERVICE_STOPPED")
     val ppg = PpgUtil(this)
-    private var dataSender: BluetoothConnect = BluetoothConnect
 
     override fun onBind(intent: Intent?): IBinder? {
         TODO("Not yet implemented")
@@ -55,6 +56,7 @@ class SensorService : Service(), SensorEventListener {
             while (true) {
                 if (SensorModel.sendData.size >= 40) {
                     var sendBinary = createSendData()
+                    StepsReaderUtil.readSteps()
                     try {
                         dataSender.sendData(sendBinary)
                         Thread.sleep(500)
@@ -70,6 +72,7 @@ class SensorService : Service(), SensorEventListener {
         ppg.destroy()
         sensorViewModel.unRegister()
         LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(intent)
+        dataSender.disconnect()
         stopSelf()
     }
 
@@ -113,7 +116,7 @@ class SensorService : Service(), SensorEventListener {
 
         val notificationIntent = Intent(this, MainActivity::class.java)
         notificationIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
-        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+        val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
 
         builder = if (Build.VERSION.SDK_INT >= 26) {
             val CHANNEL_ID = "measuring_service_channel"
@@ -148,6 +151,7 @@ class SensorService : Service(), SensorEventListener {
 
     private fun handleMobileError() {
         SensorModel.sendData.clear()
+        ppg.destroy()
         intent.putExtra("state", "mobile Error")
         stopForground()
     }
