@@ -7,6 +7,7 @@ import com.samsung.android.service.health.tracking.data.DataPoint
 import com.samsung.android.service.health.tracking.data.ValueKey
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import kotlin.math.log
 
 object PpgGreenTrackerEvent : HealthTracker.TrackerEventListener {
     val TAG: String = "ppgGreen"
@@ -44,6 +45,8 @@ object PpgGreenTrackerEvent : HealthTracker.TrackerEventListener {
         byteBuffer.putLong(dataPoint!!.getTimestamp())
         byteBuffer.putFloat(dataPoint!!.getValue(ValueKey.PpgGreenSet.PPG_GREEN).toFloat())
         byteBuffer.position(0)
+        Log.i("ppgGreen", dataPoint!!.getTimestamp().toString())
+        Log.i("ppgGreen", dataPoint!!.getValue(ValueKey.PpgGreenSet.PPG_GREEN).toFloat().toString())
         return byteBuffer
     }
 }
